@@ -1,0 +1,29 @@
+# Render.com Infrastructure-as-Code (Blueprint) for Aegis Proxy
+# One-click deployment blueprint optimized for Render Free Tier (<512MB RAM)
+
+services:
+  - type: web
+    name: aegis-proxy
+    env: docker
+    dockerfilePath: ./Dockerfile
+    region: oregon
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: AEGIS_MASTER_KEY
+        generateValue: true
+      - key: TEST_AEGIS_TOKEN
+        value: aegis_token_agent-alpha-001_secret123
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./aegis_ledger.db
+      - key: POLICY_DIR
+        value: ./policies
+      - key: DEFAULT_ANOMALY_THRESHOLD
+        value: "0.65"
+      - key: STRIPE_API_KEY
+        sync: false
+      - key: TWILIO_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
